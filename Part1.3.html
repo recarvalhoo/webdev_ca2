@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>WebDev CA2</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+    <link href="css/custom.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.1/codemirror.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.1/codemirror.js"></script>
+    <script src="js/sql.js"></script>
+    <script>
+        function reply_click(clicked_object) {
+            var sql = clicked_object.getAttribute('data-sql');
+            console.log(sql);
+            editor.setValue(sql);
+        }
+    </script>
+</head>
+
+<body>
+    <!-- Responsive navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Web Development CA 2</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="Part1.1.html">Part 1.1</a></li>
+                    <li class="nav-item"><a class="nav-link" href="Part1.2.html">Part 1.2</a></li>
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Part 1.3</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Page content-->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h1>CA2: Data Manipulation and Validation</h1>
+                <p class="lead">This is part 1.3</p>
+                <!--<p>Bootstrap v5.1.3</p>-->
+            </div>
+            <div class="col-lg-2 order-1 mb-3 d-flex flex-column gap-2 mx-auto align-items-stretch">
+                <button name="3.1" class="btn btn-success btn-block" data-sql="SELECT departments.dept_id , dept_name , gender, COUNT (employees.emp_id) AS num_empGender 
+FROM departments
+INNER JOIN dept_manager on departments.dept_id = dept_manager.dept_id
+INNER JOIN employees on dept_manager.emp_id = employees.emp_id
+GROUP BY departments.dept_id, gender
+ORDER BY departments.dept_id ASC;" onClick="reply_click(this)">3.1</button>
+                <button name="3.2" class="btn btn-success btn-block" data-sql='SELECT gender, AVG (salary) AS avg_salary, title
+FROM titles
+INNER JOIN employees ON titles.emp_id = employees.emp_id
+INNER JOIN salaries ON employees.emp_id = salaries.emp_id
+WHERE titles.title = "Technique Leader"
+GROUP BY titles.title, gender;' onClick="reply_click(this)">3.2</button>
+                <button name="3.3" class="btn btn-success btn-block" data-sql='SELECT COUNT (employees.emp_id) AS emp_count
+FROM employees
+INNER JOIN salaries ON employees.emp_id = salaries.emp_id
+WHERE salary >90000 AND salary < 90040 AND to_date = "9999-01-01";' onClick="reply_click(this)">3.3</button>
+                <button name="3.4" class="btn btn-success btn-block" data-sql='SELECT employees.emp_id , first_name , last_name, salaries.salary
+FROM employees
+INNER JOIN salaries ON employees.emp_id = salaries.emp_id
+WHERE salary >90000 AND to_date = "9999-01-01"
+GROUP BY employees.last_name, employees.first_name
+ORDER BY last_name, first_name DESC
+LIMIT 100;' onClick="reply_click(this)">3.4</button>
+                <button name="3.5" class="btn btn-success btn-block" data-sql="SELECT first_name, last_name, salaries.from_date, salaries.to_date, salaries.salary
+FROM employees
+INNER JOIN salaries ON employees.emp_id=salaries.emp_id
+WHERE employees.emp_id = 10012;" onClick="reply_click(this)">3.5</button>
+            </div>
+            <div class="col-lg-10 order-2">
+                <textarea id="commands" class="col-lg-8 order-2 mb-5">TEXT</textarea>
+                <div class="d-grid gap-2 mt-2">
+                    <button class="btn btn-primary" type="button" id="execute">Execute</button>
+                    <input type="file" class="form-control" id="dbfile" />
+                    <!-- <input type='file' id='dbfile'/> -->
+                </div>
+                <!-- Results will be displayed here -->
+                <div id="error" class="error"></div>
+
+                <pre id="output">Results will be displayed here</pre>
+
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.1/mode/sql/sql.min.js"></script>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="js/scripts.js"></script>
+</body>
+
+</html>
